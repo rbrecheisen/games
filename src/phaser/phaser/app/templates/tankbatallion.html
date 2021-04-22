@@ -41,6 +41,11 @@ function preload()
     this.load.image('brick', 'static/tankbatallion/brick.png');
 }
 
+function createWalls(physics)
+{
+    return physics.add.staticGroup();
+}
+
 function createBorder(walls)
 {
     for(x = 16; x < 25*32; x += 16)
@@ -64,19 +69,30 @@ function createVault(walls)
 {
 }
 
+function createTank(physics)
+{
+    tank = physics.add.sprite(32+16, 450, 'tank');
+    tank.setBounce(0.5);
+    tank.setCollideWorldBounds(true);
+    return tank;
+}
+
+function setupCollisionDetectionTankWalls(tank, walls, physics)
+{
+    physics.add.collider(tank, walls);
+}
+
 function create()
 {
-    walls = this.physics.add.staticGroup();
+    walls = createWalls(this.physics);
 
     createBorder(walls);
     createLabyrinth(walls);
     createVault(walls);
 
-    tank = this.physics.add.sprite(32+16, 450, 'tank');
-    tank.setBounce(0.5);
-    tank.setCollideWorldBounds(true);
+    tank = createTank(this.physics);
 
-    this.physics.add.collider(tank, walls);
+    setupCollisionDetectionTankWalls(tank, walls, this.physics);
 }
 
 function update()

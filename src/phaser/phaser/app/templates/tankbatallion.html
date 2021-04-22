@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tank Batallion</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,
+    width: 25*32,
+    height: 20*32+16,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 300 },
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+
+function preload()
+{
+    this.load.image('tank', 'static/tankbatallion/tank.png');
+    this.load.image('bullet', 'static/tankbatallion/bullet.png');
+    this.load.image('brick', 'static/tankbatallion/brick.png');
+}
+
+function createBorder(static)
+{
+    for(x = 16; x < 25*32; x += 16)
+    {
+        static.create(x, 16, 'brick');
+        static.create(x, 20*32, 'brick');
+    }
+
+    for(y = 32+16; y < 20*32-16; y += 16)
+    {
+        static.create(16, y, 'brick');
+        static.create(800-16, y, 'brick');
+    }
+}
+
+function createLabyrinth(static)
+{
+}
+
+function createVault(static)
+{
+}
+
+function create()
+{
+    static = this.physics.add.staticGroup();
+
+    createBorder(static);
+    createLabyrinth(static);
+    createVault(static);
+}
+
+function update()
+{
+}
+
+</script>
+
+</body>
+</html>

@@ -21,7 +21,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 0 },
             debug: false
         }
     },
@@ -43,9 +43,26 @@ function preload()
     this.load.image('brick', 'static/tankbatallion/brick.png');
 }
 
-function createWalls(physics)
+function createField(physics)
 {
-    return physics.add.staticGroup();
+    grid = [
+        [1, 1, 1, 1],
+        [1, 0, 0, 1],
+        [1, 0, 0, 1],
+        [1, 1, 1, 1],
+    ];
+
+    field = physics.add.staticGroup();
+
+    for(i = 0; i < grid.length; i++)
+    {
+        for(j = 0; j < grid[i].length; j++)
+        {
+            console.log('hello');
+        }
+    }
+
+    return field;
 }
 
 function createBorder(walls)
@@ -74,7 +91,7 @@ function createVault(walls)
 function createTank(physics)
 {
     tank = physics.add.sprite(32+16, 450, 'tank');
-    tank.setBounce(0.5);
+    tank.setBounce(0.0);
     tank.setCollideWorldBounds(true);
     return tank;
 }
@@ -91,7 +108,7 @@ function setupCursors(input)
 
 function create()
 {
-    walls = createWalls(this.physics);
+    walls = createField(this.physics);
 
     createBorder(walls);
     createLabyrinth(walls);
@@ -122,7 +139,7 @@ function update()
     {
     }
 
-    if(cursors.up.isDown && player.body.touching.down)
+    if(cursors.up.isDown && tank.body.touching.down)
     {
         tank.setVelocityY(-330);
     }

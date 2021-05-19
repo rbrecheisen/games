@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Tank Batallion</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var config = {
+    type: Phaser.AUTO,
+    width: 25*32,
+    height: 20*32+16,
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+    scene: {
+        preload: preload,
+        create: create,
+        update: update
+    }
+};
+
+var game = new Phaser.Game(config);
+var gameOver = false;
+var cursors;
+
+function preload()
+{
+    this.load.image('tank', 'static/tankbatallion/tank.png');
+    this.load.image('bullet', 'static/tankbatallion/bullet.png');
+    this.load.image('brick', 'static/tankbatallion/brick.png');
+}
+
+function createField(physics)
+{
+    grid = [
+        [1, 1, 1, 1],
+        [1, 0, 0, 1],
+        [1, 0, 0, 1],
+        [1, 1, 1, 1],
+    ];
+
+    field = physics.add.staticGroup();
+
+    for(i = 0; i < grid.length; i++)
+    {
+        for(j = 0; j < grid[i].length; j++)
+        {
+            console.log('hello');
+        }
+    }
+
+    return field;
+}
+
+function createBorder(walls)
+{
+    for(x = 16; x < 25*32; x += 16)
+    {
+        walls.create(x, 16, 'brick');
+        walls.create(x, 20*32, 'brick');
+    }
+
+    for(y = 32+16; y < 20*32-16; y += 16)
+    {
+        walls.create(16, y, 'brick');
+        walls.create(800-16, y, 'brick');
+    }
+}
+
+function createLabyrinth(walls)
+{
+}
+
+function createVault(walls)
+{
+}
+
+function createTank(physics)
+{
+    tank = physics.add.sprite(32+16, 450, 'tank');
+    tank.setBounce(0.0);
+    tank.setCollideWorldBounds(true);
+    return tank;
+}
+
+function setupCollisionDetectionTankWalls(tank, walls, physics)
+{
+    physics.add.collider(tank, walls);
+}
+
+function setupCursors(input)
+{
+    return input.keyboard.createCursorKeys();
+}
+
+function create()
+{
+    walls = createField(this.physics);
+
+    createBorder(walls);
+    createLabyrinth(walls);
+    createVault(walls);
+
+    tank = createTank(this.physics);
+
+    setupCollisionDetectionTankWalls(tank, walls, this.physics);
+
+    cursors = setupCursors(this.input);
+}
+
+function update()
+{
+    if(gameOver)
+    {
+        return;
+    }
+
+    if(cursors.left.isDown)
+    {
+
+    }
+    else if(cursors.right.isDown)
+    {
+    }
+    else
+    {
+    }
+
+    if(cursors.up.isDown && tank.body.touching.down)
+    {
+        tank.setVelocityY(-330);
+    }
+}
+
+</script>
+
+</body>
+</html>

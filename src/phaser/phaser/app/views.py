@@ -7,3 +7,7 @@ def index(request):
 
 def phaser(request):
     return render(request, 'phaser.html')
+
+
+def tankbatallion(request):
+    return render(request, 'tankbatallion.html')
